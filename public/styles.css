@@ -1,4 +1,4 @@
-/*focus on transparent*/
+/* Transparent */
 #transparent {
 	background: rgba(128, 128, 128, 0.3);
 	width: 100%;
@@ -8,7 +8,7 @@
 	transition: opacity 0.25s ease;
 	z-index: 1029;
 }
-month {
+.month {
 	box-sizing: border-box;
 }
 
@@ -58,11 +58,11 @@ button {
 	padding: 0 4px;
 }
 
-#craft-modal {
+#craftModal {
 	display: flex;
 }
 
-#craft-modal div {
+#craftModal div {
 	padding: 5px;
 	width: auto;
 }
@@ -70,9 +70,9 @@ button {
 #btn-wrap {
 	text-align: right;
 }
-/* Add Assignment styles */
 
-/* Modal styles */
+
+/* Modal*/
 .modal {
     background-color: #fff;
     border-radius: 10px;
@@ -91,15 +91,15 @@ button {
     font-size: 1.5rem;
 }
 /* Label Style */
-#image-label {
+#imgLabel {
     display: block; 
     margin-top: 10px; 
 }
 
-/* Add styles for the input */
-#image {
-    display: block; /* Make it a block element */
-    margin-top: 5px; /* Add top margin */
+/* Input */
+#img {
+    display: block; 
+    margin-top: 5px;
 }
 
 .modal input[type="text"],
@@ -123,40 +123,39 @@ button {
     background-color: red;
 }
 
-/* Image preview styles */
-.image-preview {
+/* Image Preview*/
+.preview {
     margin-top: 20px;
     text-align: center;
 }
 
-.image-preview img {
+.preview img {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(39, 39, 39, 0.2);
 }
 
-/* Additional supply styles */
-.supply-input {
+/* Supply */
+.supplyInput {
     margin-top: 10px;
 }
 
-/* Responsive styles */
 @media (max-width: 600px) {
     .modal {
         width: 90%;
         padding: 10px;
     }
 }
-/* Add this CSS to your styles.css file */
+
 #craft-modal img {
-  max-width: 100%; /* Ensure the image doesn't exceed the modal width */
-  max-height: 100%; /* Ensure the image doesn't exceed the modal height */
-  display: block; /* Make the image behave like a block element */
-  margin: 0 auto; /* Center the image horizontally */
+  max-width: 100%; 
+  max-height: 100%; 
+  display: block;
+  margin: 0 auto; 
 }
 
-/* Add styles for the image upload */
+
 #preview {
     width: 200px; 
     height: 300px; 

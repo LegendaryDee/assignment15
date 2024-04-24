@@ -1,5 +1,3 @@
-
-
 const getCrafts = async () => {
     try {
         return (await fetch("./api/crafts")).json();
@@ -11,47 +9,61 @@ const getCrafts = async () => {
 
 const getCraft = (craft) => {
     const craftImage = document.createElement("img");
-    craftImage.src = "/images/" + craft.img;
+    craftImage.src = craft.img;
 
     craftImage.onclick = () => {
-        const overlay = document.getElementById("craft-area");
-        const modalDiv = document.getElementById("craft-modal");
+        const overlay = document.getElementById("area");
+        const modalDiv = document.getElementById("craftModal");
         modalDiv.innerHTML = "";
-        const buttonWrap = document.createElement("p");
-        buttonWrap.id = "btn-wrap";
-        const closeButton = document.createElement("button");
-        closeButton.onclick = () => {
+        const btnWrap = document.createElement("p");
+        btnWrap.id = "btn-wrap";
+
+        const closeBtn = document.createElement("btn");
+        closeBtn.onclick = () => {
             overlay.classList.add("hidden");
             modalDiv.classList.add("hidden");
         };
-        closeButton.innerHTML = "X";
-        buttonWrap.append(closeButton);
-        modalDiv.append(buttonWrap);
+
+
+        closeBtn.innerHTML = "X";
+        btnWrap.append(closeBtn);
+        modalDiv.append(btnWrap);
+
+
         const flexDiv = document.createElement("div");
         flexDiv.id = "flex-div";
         const imgDiv= document.createElement("div");
         const flexImage = document.createElement("img");
-        flexImage.src = "./images/" + craft.img;
+        flexImage.src =  craft.img;
         imgDiv.append(flexImage);
-        const textDivElement = document.createElement("div");
-        const craftH2Element = document.createElement("h2");
-        craftH2Element.innerHTML = craft.name;
-        textDivElement.append(craftH2Element);
-        const descPElement = document.createElement("p");
-        descPElement.innerHTML = craft.description;
-        textDivElement.append(descPElement);
-        const craftH3Element = document.createElement("h3");
-        craftH3Element.innerHTML = "Supplies:";
-        textDivElement.append(craftH3Element);
-        const listElement = document.createElement("ul");
+
+
+        const contentDiv = document.createElement("div");
+        const craftH2= document.createElement("h2");
+        craftH2.innerHTML = craft.name;
+        contentDiv.append(craftH2);
+
+
+        const descriptionP = document.createElement("p");
+        descriptionP.innerHTML = craft.description;
+        contentDiv.append(descriptionP);
+
+
+        const craftH3= document.createElement("h3");
+        craftH3.innerHTML = "Supplies:";
+        contentDiv.append(craftH3);
+
+
+        const list = document.createElement("ul");
         craft.supplies.forEach((supply) => {
-            const itemElement = document.createElement("li");
-            itemElement.innerHTML = supply;
-            listElement.appendChild(itemElement);
+            const item = document.createElement("li");
+            item.innerHTML = supply;
+            list.appendChild(item);
         });
-        textDivElement.append(listElement);
+
+        contentDiv.append(list);
         flexDiv.append(imgDiv);
-        flexDiv.append(textDivElement);
+        flexDiv.append(contentDiv);
         modalDiv.append(flexDiv);
         overlay.classList.remove("hidden");
         modalDiv.classList.remove("hidden");
@@ -64,9 +76,11 @@ const showCrafts = async () => {
     const craftDiv = document.getElementById("crafts");
     craftDiv.innerHTML = "";
     if (craftsJSON == "") {
-        craftDiv.innerHTML = "no crafts here";
+        craftDiv.innerHTML = "Crafts not aviable!";
         return;
     }
+
+
     let count = 0;
     let column = document.createElement("div");
     column.classList.add("column");
@@ -83,48 +97,48 @@ const showCrafts = async () => {
     craftDiv.append(column);
 };
 
-const changeImagePreview = (event) => {
-    const previewElement = document.getElementById("preview");
+const changeImgPreview = (event) => {
+    const changePreview = document.getElementById("preview");
     if (!event.target.files.length) {
-        previewElement.src = "https://place-hold.it/200x300";
+        changePreview.src = "https://place-hold.it/200x300";
         return;
     }
-    previewElement.src = URL.createObjectURL(event.target.files.item(0));
+    changePreview.src = URL.createObjectURL(event.target.files.item(0));
 };
 
-const addSupplyInput = (event) => {
+const addSupply = (event) => {
     event.preventDefault();
-    const suppliesListElement = document.getElementById("supplies-list");
-    const supplyInputElement = document.createElement("input");
-    supplyInputElement.type = "text";
-    supplyInputElement.classList.add("supply-input"); 
-    suppliesListElement.appendChild(supplyInputElement);
+    const suppliesList = document.getElementById("suppliesList");
+    const supplyInput = document.createElement("input");
+    supplyInput.type = "text";
+    supplyInput.classList.add("supplyInput"); 
+    suppliesList.appendChild(supplyInput);
 };
 
 const resetCraftForm = () => {
-    document.getElementById("craft-form").reset();
-    document.getElementById("supplies-list").innerHTML = "";
+    document.getElementById("craftForm").reset();
+    document.getElementById("suppliesList").innerHTML = "";
     document.getElementById("preview").src = "https://place-hold.it/200x300";
 };
 
 const openAddCraftModal = () => {
     resetCraftForm();
-    const overlay = document.getElementById("craft-add-overlay");
-    const modalDiv = document.getElementById("add-craft-modal");
+    const overlay = document.getElementById("overlay");
+    const modalDiv = document.getElementById("craftModal");
     overlay.classList.remove("hidden");
     modalDiv.classList.remove("hidden");
 };
 
 const closeAddCraftModal = () => {
-    const overlay = document.getElementById("craft-add-overlay");
-    const modalDiv = document.getElementById("add-craft-modal");
+    const overlay = document.getElementById("overlay");
+    const modalDiv = document.getElementById("craftModal");
     overlay.classList.add("hidden");
     modalDiv.classList.add("hidden");
     resetCraftForm();
 };
 
 const getSuppliesList = () => {
-    const suppliesInput = document.querySelectorAll("#supplies-list input");
+    const suppliesInput = document.querySelectorAll("#suppliesList input");
     const supplies = [];
     suppliesInput.forEach((supply) => {
         supplies.push(supply.value);
@@ -134,7 +148,7 @@ const getSuppliesList = () => {
 
 const submitCraftForm = async (event) => {
     event.preventDefault();
-    const form = document.getElementById("craft-form");
+    const form = document.getElementById("craftForm");
     const formData = new FormData(form);
     formData.append("supplies", getSuppliesList().join(","));
     const response = await fetch("/api/crafts", {
@@ -153,7 +167,7 @@ const submitCraftForm = async (event) => {
 
 showCrafts();
 document.getElementById("addCraft").onclick = openAddCraftModal;
-document.getElementById("craft-form").onsubmit = submitCraftForm;
-document.getElementById("add-supply").onclick = addSupplyInput;
-document.getElementById("img").onchange = changeImagePreview;
+document.getElementById("craftForm").onsubmit = submitCraftForm;
+document.getElementById("addSupply").onclick = addSupply;
+document.getElementById("img").onchange = changeImgPreview;
 document.getElementById("cancel").onclick = closeAddCraftModal;
