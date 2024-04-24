@@ -1,21 +1,12 @@
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignment 14</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/css/tryit.asp?filename=trycss3_flexbox_image_gallery">
-    <link rel="stylesheet" href="styles.css">
+	
+    <title>Assignment 15</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <header>
-        <h1>Buy and Sell Crafts+</h1>
-    </header>
-
-    <div id="crafts-list" class="flex-container"></div>
-    
     <div id="craft-area" class="transparent-overlay hidden">
         <div id="craft-modal" class="modal hidden"></div>
     </div>
@@ -28,8 +19,8 @@
                         <img id="preview" src="https://www.placehold.it/200x300" />
                     </p>
                     <p>
-                        <label id="image-label" for="image">Select an Image</label>
-                        <input type="file" id="image" name="image" accept="image/month" required />
+                        <label id="img-label" for="img">Select an Image</label>
+                        <input type="file" id="img" name="img" accept="img/month" required />
                     </p>
                 </div>
                 <div id="text-content">
@@ -55,22 +46,19 @@
                         <button type="submit" id="save" class="form-buttons">Save</button>
                     </div>
                 </div>
-    
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="modal-left">
-                <img id="modal-image" src="" alt="">
-            </div>
-            <div class="modal-right">
-                <h2 id="modal-title"></h2>
-                <p id="modal-description"></p>
-                <h3>Supplies:</h3>
-                <ul id="modal-supplies"></ul>
-            </div>
+            </form>
         </div>
     </div>
-
+    <header>
+        <h1>Buy and Sell Crafts</h1>
+        <button id="addCraft">
+            <h1><strong>+</strong></h1>
+        </button>
+    </header>
+    <main>
+        <div id="crafts"></div>
+    </main>
     <script src="script.js"></script>
 </body>
-</html
+</html>
+

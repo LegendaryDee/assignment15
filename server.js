@@ -1,22 +1,22 @@
 const express = require("express");
 const app = express();
-const joi = require("joi");
+const Joi = require("joi");
+const multer = require("multer");
 app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
+
  
-app.get("/",(req,res)=>{
-    res.sendFile(__dirname + "/index.html");
-});
- 
+
 app.get("/api/crafts", (req,res)=>{
     console.log("Someone is requesting our api");
     const crafts = [];
       crafts[0] = {
        
       "name": "Beaded JellyFish",
-      "img": "/images/bead-jellyfish.jpg",
+      "image": "/images/bead-jellyfish.jpg",
       "description": "Create a hanging jellyfish using eggcartons and multicolored beads",
       "supplies": [
           "string",
@@ -24,10 +24,18 @@ app.get("/api/crafts", (req,res)=>{
           "beads"
       ]
     };
-    app.get("/api/crafts", (req,res) =>
-    {
-        res.send(crafts);
-    });
+   
+
+    const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+          cb(null, "./public/images/");
+        },
+        filename: (req, file, cb) => {
+          cb(null, file.originalname);
+        },
+      });
+    
+    const upload = multer({ storage: storage });
 
     
     app.post("/api/crafts", upload.single("img"), (req,res)=>
@@ -39,23 +47,27 @@ app.get("/api/crafts", (req,res)=>{
         return;
        }
 
-       console.log(req.body.supplies);
+    //    console.log(req.body.supplies);
        const craft = {
         _id: crafts.length +1,
         name: req.body.name,
         description: req.body.description,
         supplies: req.body.supplies.split(","),
        };
+
+       if (req.file) {
+        crafts.image = "images/" + req.file.filename;
+      }
        crafts.push(craft);
-       res.send(craft);
+       res.send(crafts);
     });
 
     const validateCrafts = (craft) => {
         const schema = Joi.object({
-            id: Joi.allow(""),
+            _id: Joi.allow(""),
             name: Joi.string().min(3).required(),
             description:Joi.string().min(3).required(),
-            supplies:Joi.allow(),
+           
 
         });
         return schema.validate(craft);
@@ -334,9 +346,14 @@ app.get("/api/crafts", (req,res)=>{
                 "Glitter"
             ]};
             res.json(crafts);
+
+          
+             
         });
        
-       
+        app.get("/",(req,res)=>{
+            res.sendFile(__dirname + "/index.html");
+        });
       app.listen(3000, () => {
           console.log("Listening on port 3000");
         });
